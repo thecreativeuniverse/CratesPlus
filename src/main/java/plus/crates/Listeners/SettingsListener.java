@@ -1,5 +1,6 @@
 package plus.crates.Listeners;
 
+import net.minecraft.network.protocol.game.ClientboundOpenSignEditorPacket;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -22,8 +23,6 @@ import plus.crates.Utils.LegacyMaterial;
 import plus.crates.Utils.ReflectionUtil;
 import plus.crates.Utils.SignInputHandler;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public class SettingsListener implements Listener {
@@ -199,18 +198,12 @@ public class SettingsListener implements Listener {
                 // Let's handle renaming using sign packets ;D
                 String name = ChatColor.stripColor(title.replaceAll("Edit ", "").replaceAll(" Crate", ""));
                 renaming.put(player.getUniqueId(), name);
-                try {
-                    Constructor<?> signConstructor = ReflectionUtil.getNMSClass("PacketPlayOutOpenSignEditor").getConstructor(ReflectionUtil.getNMSClass("BlockPosition"));
-                    Location location = player.getLocation();
-                    location.setY(0);
-                    Object packet = signConstructor.newInstance(ReflectionUtil.getBlockPosition(location));
-                    SignInputHandler.injectNetty(cratesPlus, player);
-                    player.sendBlockChange(location, LegacyMaterial.SIGN_POST.getMaterial(), (byte) 0);
-                    ReflectionUtil.sendPacket(player, packet);
-                } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-                    player.sendMessage(cratesPlus.getPluginPrefix() + ChatColor.RED + "Please use /crate rename <old> <new>");
-                    renaming.remove(player.getUniqueId());
-                }
+                Location location = player.getLocation().clone();
+                location.setY(0);
+                ClientboundOpenSignEditorPacket packet = new ClientboundOpenSignEditorPacket(ReflectionUtil.getBlockPosition(location));
+                SignInputHandler.injectNetty(cratesPlus, player);
+                player.sendBlockChange(location, LegacyMaterial.SIGN_POST.getMaterial(), (byte) 0);
+                ReflectionUtil.sendPacket(player, packet);
                 event.setCancelled(true);
             } else if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Edit Crate Color")) {
                 event.setCancelled(true);

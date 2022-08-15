@@ -1,6 +1,10 @@
 package plus.crates.Commands;
 
-import org.bukkit.*;
+import net.minecraft.network.protocol.game.ClientboundOpenSignEditorPacket;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -22,8 +26,6 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
@@ -206,10 +208,9 @@ public class CrateCommand implements CommandExecutor {
 
                         cratesPlus.addCreating(player.getUniqueId());
                         try {
-                            Constructor<?> signConstructor = ReflectionUtil.getNMSClass("PacketPlayOutOpenSignEditor").getConstructor(ReflectionUtil.getNMSClass("BlockPosition"));
-                            Location location = player.getLocation();
+                            Location location = player.getLocation().clone();
                             location.setY(0);
-                            Object packet = signConstructor.newInstance(ReflectionUtil.getBlockPosition(location));
+                            ClientboundOpenSignEditorPacket packet = new ClientboundOpenSignEditorPacket(ReflectionUtil.getBlockPosition(location));
                             SignInputHandler.injectNetty(cratesPlus, player);
                             player.sendBlockChange(location, LegacyMaterial.SIGN_POST.getMaterial(), (byte) 0);
                             ReflectionUtil.sendPacket(player, packet);
