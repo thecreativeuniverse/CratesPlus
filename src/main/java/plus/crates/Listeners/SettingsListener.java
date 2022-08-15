@@ -20,7 +20,7 @@ import plus.crates.Crate;
 import plus.crates.CratesPlus;
 import plus.crates.Events.PlayerInputEvent;
 import plus.crates.Utils.LegacyMaterial;
-import plus.crates.Utils.ReflectionUtil;
+import plus.crates.Utils.NMSUtil;
 import plus.crates.Utils.SignInputHandler;
 
 import java.util.*;
@@ -200,10 +200,10 @@ public class SettingsListener implements Listener {
                 renaming.put(player.getUniqueId(), name);
                 Location location = player.getLocation().clone();
                 location.setY(0);
-                ClientboundOpenSignEditorPacket packet = new ClientboundOpenSignEditorPacket(ReflectionUtil.getBlockPosition(location));
+                ClientboundOpenSignEditorPacket packet = new ClientboundOpenSignEditorPacket(NMSUtil.getBlockPosition(location));
                 SignInputHandler.injectNetty(cratesPlus, player);
                 player.sendBlockChange(location, LegacyMaterial.SIGN_POST.getMaterial(), (byte) 0);
-                ReflectionUtil.sendPacket(player, packet);
+                NMSUtil.sendPacket(player, packet);
                 event.setCancelled(true);
             } else if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Edit Crate Color")) {
                 event.setCancelled(true);

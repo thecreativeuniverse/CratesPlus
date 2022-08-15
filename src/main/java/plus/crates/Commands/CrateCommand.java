@@ -210,10 +210,10 @@ public class CrateCommand implements CommandExecutor {
                         try {
                             Location location = player.getLocation().clone();
                             location.setY(0);
-                            ClientboundOpenSignEditorPacket packet = new ClientboundOpenSignEditorPacket(ReflectionUtil.getBlockPosition(location));
+                            ClientboundOpenSignEditorPacket packet = new ClientboundOpenSignEditorPacket(NMSUtil.getBlockPosition(location));
                             SignInputHandler.injectNetty(cratesPlus, player);
                             player.sendBlockChange(location, LegacyMaterial.SIGN_POST.getMaterial(), (byte) 0);
-                            ReflectionUtil.sendPacket(player, packet);
+                            NMSUtil.sendPacket(player, packet);
                         } catch (Exception e) {
                             cratesPlus.getLogger().log(Level.SEVERE, "Failed to display sign!", e);
                             cratesPlus.removeCreating(player.getUniqueId());
