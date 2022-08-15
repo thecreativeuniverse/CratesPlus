@@ -37,6 +37,7 @@ public class SettingsListener implements Listener {
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event) {
         if (!(event.getPlayer() instanceof Player)) return;
+        if (!cratesPlus.getInventoryHandler().isOpened(event.getPlayer().getUniqueId())) return;
         String title = event.getView().getTitle();
         if (title.contains("Crate Winnings")) {
             String crateName = ChatColor.stripColor(title.replaceAll("Edit ", "").replaceAll(" Crate Winnings", ""));
@@ -116,6 +117,8 @@ public class SettingsListener implements Listener {
     public void onInventoryClick(InventoryClickEvent event) {
         ItemStack itemStack = event.getCurrentItem();
         Player player = (Player) event.getWhoClicked();
+
+        if (!cratesPlus.getInventoryHandler().isOpened(player.getUniqueId())) return;
 
         String title = event.getView().getTitle();
 
@@ -324,7 +327,7 @@ public class SettingsListener implements Listener {
                 String name = ChatColor.stripColor(title.replaceAll("Edit ", "").replaceAll(" Crate", ""));
                 cratesPlus.getSettingsHandler().getLastCrateEditing().put(player.getUniqueId().toString(), name);
 
-                player.openInventory(inventory);
+                cratesPlus.getInventoryHandler().openChild(player, inventory);
             }
 
         }

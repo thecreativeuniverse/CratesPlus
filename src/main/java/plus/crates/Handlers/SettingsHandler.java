@@ -89,7 +89,7 @@ public class SettingsHandler {
         Bukkit.getScheduler().runTaskLater(cratesPlus, new Runnable() {
             @Override
             public void run() {
-                player.openInventory(settings);
+                cratesPlus.getInventoryHandler().open(player, settings);
             }
         }, 1L);
     }
@@ -98,7 +98,7 @@ public class SettingsHandler {
         Bukkit.getScheduler().runTaskLater(cratesPlus, new Runnable() {
             @Override
             public void run() {
-                player.openInventory(crates);
+                cratesPlus.getInventoryHandler().open(player, crates);
             }
         }, 1L);
     }
@@ -125,7 +125,7 @@ public class SettingsHandler {
         Bukkit.getScheduler().runTaskLater(cratesPlus, new Runnable() {
             @Override
             public void run() {
-                player.openInventory(inventory);
+                cratesPlus.getInventoryHandler().open(player, inventory);
             }
         }, 1L);
 
@@ -202,7 +202,7 @@ public class SettingsHandler {
         Bukkit.getScheduler().runTaskLater(cratesPlus, new Runnable() {
             @Override
             public void run() {
-                player.openInventory(inventory);
+                cratesPlus.getInventoryHandler().open(player, inventory);
             }
         }, 1L);
 
@@ -211,4 +211,5 @@ public class SettingsHandler {
     public HashMap<String, String> getLastCrateEditing() {
         return lastCrateEditing;
     }
+
 }

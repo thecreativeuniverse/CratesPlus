@@ -18,6 +18,7 @@ public class InventoryInteract implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onInventoryClick(InventoryClickEvent event) {
+        if (!cratesPlus.getInventoryHandler().isOpened(event.getWhoClicked().getUniqueId())) return;
         String title = event.getView().getTitle();
         if (title.contains("Edit "))
             return;

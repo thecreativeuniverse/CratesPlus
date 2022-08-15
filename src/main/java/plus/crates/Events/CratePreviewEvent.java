@@ -52,7 +52,7 @@ public class CratePreviewEvent extends Event {
             inventory.setItem(i, itemStack);
             i++;
         }
-        player.openInventory(inventory);
+        cratesPlus.getInventoryHandler().open(player, inventory);
     }
 
     @Override

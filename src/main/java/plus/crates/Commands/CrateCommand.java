@@ -527,7 +527,7 @@ public class CrateCommand implements CommandExecutor {
             inventory.setItem(i, keyItem);
             i++;
         }
-        player.openInventory(inventory);
+        cratesPlus.getInventoryHandler().open(player, inventory);
     }
 
     private String uploadDebugData(String configLink, String dataLink, String messagesLink, String pluginsLink) {

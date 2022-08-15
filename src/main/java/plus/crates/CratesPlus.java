@@ -12,8 +12,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.MetadataValue;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import plus.crates.Commands.CrateCommand;
 import plus.crates.Handlers.*;
@@ -41,6 +39,7 @@ public class CratesPlus extends JavaPlugin implements Listener {
     private CrateHandler crateHandler;
     private MessageHandler messageHandler = new MessageHandler(this);
     private SettingsHandler settingsHandler;
+    private InventoryHandler inventoryHandler;
     private String bukkitVersion = "0.0";
     private Version_Util version_util;
     private static OpenHandler openHandler;
@@ -210,6 +209,8 @@ public class CratesPlus extends JavaPlugin implements Listener {
         openHandler = new OpenHandler(this);
 
         settingsHandler = new SettingsHandler(this);
+
+        inventoryHandler = new InventoryHandler(this);
 
         loadMetaData();
 
@@ -472,6 +473,10 @@ public class CratesPlus extends JavaPlugin implements Listener {
 
     public SettingsHandler getSettingsHandler() {
         return settingsHandler;
+    }
+
+    public InventoryHandler getInventoryHandler() {
+        return inventoryHandler;
     }
 
     public String getPluginPrefix() {

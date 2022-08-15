@@ -61,7 +61,7 @@ public class BasicGUIOpener extends Opener implements Listener {
         currentItem[0] = random.nextInt((max - min) + 1) + min;
         winGUI = Bukkit.createInventory(null, 45, crate.getColor() + crate.getName() + " Win");
         guis.put(player.getUniqueId(), winGUI);
-        player.openInventory(winGUI);
+        cratesPlus.getInventoryHandler().open(player, winGUI);
         final int maxTimeTicks = length * 10;
         tasks.put(player.getUniqueId(), Bukkit.getScheduler().runTaskTimerAsynchronously(cratesPlus, new Runnable() {
             public void run() {
@@ -138,12 +138,13 @@ public class BasicGUIOpener extends Opener implements Listener {
 
     @Override
     public void doReopen(Player player, Crate crate, Location location) {
-        player.openInventory(guis.get(player.getUniqueId()));
+        cratesPlus.getInventoryHandler().openChild(player, guis.get(player.getUniqueId()));
     }
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         String title = event.getView().getTitle();
+        if (!cratesPlus.getInventoryHandler().isOpened(event.getWhoClicked().getUniqueId())) return;
         if (title.contains(" Win") && !title.contains("Edit ")) {
             if (event.getInventory().getType() == InventoryType.CHEST && event.getSlot() != 22 || event.getCurrentItem() != null) {
                 event.setCancelled(true);

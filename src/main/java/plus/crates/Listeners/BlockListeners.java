@@ -3,9 +3,6 @@ package plus.crates.Listeners;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
-import org.bukkit.block.Chest;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,8 +15,6 @@ import org.bukkit.event.inventory.InventoryPickupItemEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.MetadataValue;
-import org.bukkit.plugin.Plugin;
 import plus.crates.Crate;
 import plus.crates.CratesPlus;
 import plus.crates.Key;
@@ -126,7 +121,7 @@ public class BlockListeners implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if (!cratesPlus.getConfigHandler().isDisableKeySwapping())
+        if (!cratesPlus.getConfigHandler().isDisableKeySwapping() || !cratesPlus.getInventoryHandler().isOpened(event.getWhoClicked().getUniqueId()))
             return;
         if (!event.getInventory().getType().toString().contains("PLAYER") && event.getCurrentItem() != null) {
             String title;
