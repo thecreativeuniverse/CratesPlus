@@ -3,12 +3,10 @@ package plus.crates.Listeners;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import plus.crates.Crate;
 import plus.crates.CratesPlus;
@@ -41,8 +39,7 @@ public class PlayerInteract implements Listener {
 
         String crateType = clickedBlock.getMetadata(Constants.METADATA_KEY).get(0).asString();
 
-        ItemStack item = cratesPlus.getVersion_util().getItemInPlayersHand(player);
-        ItemStack itemOff = cratesPlus.getVersion_util().getItemInPlayersOffHand(player);
+        ItemStack item = player.getInventory().getItemInMainHand();
 
         if (!cratesPlus.getConfig().isSet("Crates." + crateType)) {
             return;
@@ -70,12 +67,6 @@ public class PlayerInteract implements Listener {
                 cratePreviewEvent.doEvent();
         } else {
             /** Opening of Crate **/
-            boolean usingOffHand = false;
-            if (itemOff != null && itemOff.hasItemMeta() && !itemOff.getType().equals(Material.AIR) && itemOff.getItemMeta().getDisplayName() != null && itemOff.getItemMeta().getDisplayName().equals(title)) {
-                item = itemOff;
-                usingOffHand = true;
-            }
-
             if (cratesPlus.getCrateHandler().hasOpening(player.getUniqueId())) { /** If already opening crate, show GUI for said crate **/
                 cratesPlus.getCrateHandler().getOpening(player.getUniqueId()).doReopen(player, crate, clickedBlock.getLocation());
                 event.setCancelled(true);
@@ -103,11 +94,7 @@ public class PlayerInteract implements Listener {
                 if (item.getAmount() > 1) {
                     item.setAmount(item.getAmount() - 1);
                 } else {
-                    if (usingOffHand) {
-                        cratesPlus.getVersion_util().removeItemInOffHand(player);
-                    } else {
-                        player.setItemInHand(null);
-                    }
+                    player.setItemInHand(null);
                 }
 
                 CrateOpenEvent crateOpenEvent = new CrateOpenEvent(player, crateType, clickedBlock.getLocation(), cratesPlus);

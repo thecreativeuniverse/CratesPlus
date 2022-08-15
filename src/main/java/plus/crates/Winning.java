@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import plus.crates.Handlers.ConfigHandler;
 import plus.crates.Utils.EnchantmentUtil;
-import plus.crates.Utils.LegacyMaterial;
+import plus.crates.Utils.SpawnEggNBT;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,8 +77,8 @@ public class Winning {
             if (config.isSet(path + ".Amount"))
                 amount = config.getInt(path + ".Amount");
 
-            if (!entityType.isEmpty() && itemType == LegacyMaterial.MONSTER_EGG.getMaterial()) {
-                itemStack = cratesPlus.getVersion_util().getSpawnEgg(EntityType.valueOf(entityType.toUpperCase()), amount);
+            if (!entityType.isEmpty() && itemType.name().contains("SPAWN_EGG")) {
+                itemStack = new SpawnEggNBT(EntityType.valueOf(entityType.toUpperCase())).toItemStack(amount);
             } else {
                 itemStack = new ItemStack(itemType, amount, Short.parseShort(String.valueOf(itemData)));
             }
@@ -134,9 +134,10 @@ public class Winning {
             previewItemStackItemMeta = (ItemMeta) config.get(path + ".Metadata");
         }
 
-        if (config.isSet(path + ".Flags")) {
-            previewItemStackItemMeta = cratesPlus.getVersion_util().handleItemFlags(previewItemStackItemMeta, config.getStringList(path + ".Flags"));
-        }
+        //FIXME? this didn't do anything in version_Util.
+//        if (config.isSet(path + ".Flags")) {
+//            previewItemStackItemMeta = cratesPlus.getVersion_util().handleItemFlags(previewItemStackItemMeta, config.getStringList(path + ".Flags"));
+//        }
 
         String displayName = "";
         if (config.isSet(path + ".Name") && !config.getString(path + ".Name").equals("NONE"))
@@ -174,9 +175,10 @@ public class Winning {
             winningItemStackItemMeta = (ItemMeta) config.get(path + ".Metadata");
         }
 
-        if (config.isSet(path + ".Flags")) {
-            winningItemStackItemMeta = cratesPlus.getVersion_util().handleItemFlags(winningItemStackItemMeta, config.getStringList(path + ".Flags"));
-        }
+        //FIXME? this didn't seem to do anything in version_util
+//        if (config.isSet(path + ".Flags")) {
+//            winningItemStackItemMeta = cratesPlus.getHologramUtil().handleItemFlags(winningItemStackItemMeta, config.getStringList(path + ".Flags"));
+//        }
 
         displayName = "";
         if (config.isSet(path + ".Name") && !config.getString(path + ".Name").equals("NONE"))

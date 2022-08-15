@@ -146,18 +146,13 @@ public class BlockListeners implements Listener {
     public void onBlockPlace(BlockPlaceEvent event) {
         String title;
         Player player = event.getPlayer();
-        ItemStack item = cratesPlus.getVersion_util().getItemInPlayersHand(player);
-        ItemStack itemOff = cratesPlus.getVersion_util().getItemInPlayersOffHand(player);
+        ItemStack item = player.getInventory().getItemInMainHand();
 
         for (Map.Entry<String, Crate> crate : cratesPlus.getConfigHandler().getCrates().entrySet()) {
             Key key = crate.getValue().getKey();
             if (key == null)
                 continue;
             title = key.getName();
-
-            if (itemOff != null && itemOff.hasItemMeta() && itemOff.getItemMeta().hasDisplayName() && itemOff.getItemMeta().getDisplayName() != null && itemOff.getItemMeta().getDisplayName().contains(title)) {
-                item = itemOff;
-            }
 
             if (item.hasItemMeta() && item.getItemMeta().hasDisplayName() && item.getItemMeta().getDisplayName().contains(title)) {
                 event.getPlayer().sendMessage(cratesPlus.getPluginPrefix() + cratesPlus.getMessageHandler().getMessage("Cant Place", event.getPlayer(), crate.getValue(), null));

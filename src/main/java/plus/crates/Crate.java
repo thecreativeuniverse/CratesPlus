@@ -236,7 +236,7 @@ public class Crate {
         ArrayList<String> list = new ArrayList<>();
         for (String string : cratesPlus.getConfigHandler().getHolograms(this.slug))
             list.add(cratesPlus.getMessageHandler().doPlaceholders(string, null, this, null));
-        cratesPlus.getVersion_util().createHologram(location, list, this);
+        cratesPlus.getHologramUtil().createHologram(location, list, this);
     }
 
     public HashMap<Location, Hologram> getHolograms() {
@@ -248,7 +248,7 @@ public class Crate {
     }
 
     public void removeHolograms(Location location) {
-        cratesPlus.getVersion_util().removeHologram(location);
+        cratesPlus.getHologramUtil().removeHologram(location);
         if (holograms.containsKey(location)) {
             holograms.get(location).destroyAll();
             holograms.remove(location);

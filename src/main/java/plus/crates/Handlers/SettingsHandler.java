@@ -9,7 +9,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import plus.crates.Crate;
 import plus.crates.CratesPlus;
-import plus.crates.Utils.LegacyMaterial;
 import plus.crates.Winning;
 
 import java.util.ArrayList;
@@ -51,14 +50,7 @@ public class SettingsHandler {
 
         /** Reload Config */
 
-        Material material;
-        try {
-            material = Material.valueOf("BARRIER");
-        } catch (Exception i) {
-            material = LegacyMaterial.REDSTONE_TORCH_ON.getMaterial();
-        }
-
-        itemStack = new ItemStack(material);
+        itemStack = new ItemStack(Material.BARRIER);
         itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(ChatColor.GREEN + "Reload Config");
         lore = new ArrayList<>();
@@ -169,8 +161,7 @@ public class SettingsHandler {
 
 
         /** Edit Crate Color */
-
-        itemStack = new ItemStack(LegacyMaterial.WOOL.getMaterial(), 1, (short) 3);
+        itemStack = new ItemStack(Material.LIGHT_BLUE_WOOL, 1);
         itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(ChatColor.WHITE + "Edit Crate Color");
         lore = new ArrayList<>();
@@ -181,16 +172,7 @@ public class SettingsHandler {
 
 
         /** Delete Crate */
-
-        Material material;
-
-        try {
-            material = Material.valueOf("BARRIER");
-        } catch (Exception i) {
-            material = LegacyMaterial.REDSTONE_TORCH_ON.getMaterial();
-        }
-
-        itemStack = new ItemStack(material);
+        itemStack = new ItemStack(Material.BARRIER);
         itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(ChatColor.WHITE + "Delete Crate");
         lore = new ArrayList<>();

@@ -41,7 +41,7 @@ public class CratesPlus extends JavaPlugin implements Listener {
     private SettingsHandler settingsHandler;
     private InventoryHandler inventoryHandler;
     private String bukkitVersion = "0.0";
-    private Version_Util version_util;
+    private HologramUtil hologramUtil;
     private static OpenHandler openHandler;
     private ArrayList<UUID> creatingCrate = new ArrayList<>();
 
@@ -56,28 +56,14 @@ public class CratesPlus extends JavaPlugin implements Listener {
         }
         bukkitVersion = matcher.group(1);
 
-        if (versionCompare(bukkitVersion, "1.16.4") > 0) {
+        if (versionCompare(bukkitVersion, "1.19") > 0) {
             // This means the plugin is using something newer than the latest tested build... we'll show a warning but carry on as usual
             getLogger().warning("CratesPlus has not yet been officially tested with Bukkit " + bukkitVersion + " but should still work");
             getLogger().warning("Please let me know if there are any errors or issues");
-        }
-
-        if (versionCompare(bukkitVersion, "1.9") > -1) {
-            // Use 1.9+ Util
-            version_util = new Version_1_9(this);
-        } else if (versionCompare(bukkitVersion, "1.7") > -1) {
-            // Use Default Util
-            if (bukkitVersion.equals("1.7") || bukkitVersion.startsWith("1.7.")) {
-                getLogger().warning("CratesPlus does NOT fully support Bukkit 1.7, if you have issues please report them but they may not be fixed");
-            }
-            version_util = new Version_Util(this);
         } else {
-            getLogger().severe("CratesPlus does NOT support Bukkit " + bukkitVersion + ", if you believe this is an error please let me know");
-            if (!getConfig().isSet("Ignore Version") || !getConfig().getBoolean("Ignore Version")) { // People should only ignore this in the case of an error, doing an ignore on a unsupported version could break something
-                setEnabled(false);
-                return;
-            }
-            version_util = new Version_Util(this); // Use the 1.7/1.8 util? Probably has a lower chance of breaking
+            getLogger().severe("CratesPlus does not support this version.");
+            this.setEnabled(false);
+            return;
         }
 
         final ConsoleCommandSender console = server.getConsoleSender();
@@ -212,6 +198,8 @@ public class CratesPlus extends JavaPlugin implements Listener {
 
         inventoryHandler = new InventoryHandler(this);
         Bukkit.getPluginManager().registerEvents(inventoryHandler, this);
+
+        hologramUtil = new HologramUtil(this);
 
         loadMetaData();
 
@@ -519,8 +507,8 @@ public class CratesPlus extends JavaPlugin implements Listener {
         this.configBackup = configBackup;
     }
 
-    public Version_Util getVersion_util() {
-        return version_util;
+    public HologramUtil getHologramUtil() {
+        return hologramUtil;
     }
 
     public File getMessagesFile() {

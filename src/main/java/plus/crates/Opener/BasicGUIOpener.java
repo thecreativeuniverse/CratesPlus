@@ -1,9 +1,6 @@
 package plus.crates.Opener;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,15 +12,30 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import plus.crates.Crate;
 import plus.crates.CratesPlus;
-import plus.crates.Utils.LegacyMaterial;
 import plus.crates.Winning;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.Set;
 import java.util.UUID;
 
 public class BasicGUIOpener extends Opener implements Listener {
+
+    private static final Set<Material> GLASS_PANES = Set.of(
+            Material.ORANGE_STAINED_GLASS_PANE,
+            Material.MAGENTA_STAINED_GLASS_PANE,
+            Material.LIGHT_BLUE_STAINED_GLASS_PANE,
+            Material.YELLOW_STAINED_GLASS_PANE,
+            Material.LIME_STAINED_GLASS_PANE,
+            Material.PINK_STAINED_GLASS_PANE,
+            Material.CYAN_STAINED_GLASS_PANE,
+            Material.PURPLE_STAINED_GLASS_PANE,
+            Material.BLUE_STAINED_GLASS_PANE,
+            Material.GREEN_STAINED_GLASS_PANE,
+            Material.RED_STAINED_GLASS_PANE
+    );
+
     private CratesPlus cratesPlus;
     private HashMap<UUID, Integer> tasks = new HashMap<>();
     private HashMap<UUID, Inventory> guis = new HashMap<>();
@@ -93,7 +105,7 @@ public class BasicGUIOpener extends Opener implements Listener {
                         currentItem[0]++;
                         continue;
                     }
-                    ItemStack itemStack = new ItemStack(LegacyMaterial.STAINED_GLASS_PANE.getMaterial(), 1, (short) cratesPlus.getCrateHandler().randInt(0, 15));
+                    ItemStack itemStack = new ItemStack(GLASS_PANES.stream().skip(cratesPlus.getCrateHandler().randInt(0, GLASS_PANES.size() - 1)).findFirst().orElse(Material.RED_STAINED_GLASS_PANE), 1);
                     ItemMeta itemMeta = itemStack.getItemMeta();
                     if (timer[0] == maxTimeTicks) {
                         itemMeta.setDisplayName(ChatColor.RESET + "Winner!");

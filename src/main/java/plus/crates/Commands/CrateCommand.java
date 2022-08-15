@@ -1,15 +1,11 @@
 package plus.crates.Commands;
 
 import net.minecraft.network.protocol.game.ClientboundOpenSignEditorPacket;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -20,7 +16,9 @@ import org.json.simple.parser.JSONParser;
 import plus.crates.Crate;
 import plus.crates.CratesPlus;
 import plus.crates.Opener.Opener;
-import plus.crates.Utils.*;
+import plus.crates.Utils.NMSUtil;
+import plus.crates.Utils.PasteUtils;
+import plus.crates.Utils.SignInputHandler;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -52,50 +50,10 @@ public class CrateCommand implements CommandExecutor {
         }
 
         if (args.length >= 1) {
+            Player player;
             switch (args[0].toLowerCase()) {
                 default:
                     sender.sendMessage(cratesPlus.getPluginPrefix() + ChatColor.RED + "Unknown arg");
-                    break;
-                case "testeggs":
-                    Player player = null;
-                    if (sender instanceof Player)
-                        player = (Player) sender;
-
-                    sender.sendMessage(ChatColor.AQUA + "Creating creeper egg...");
-                    ItemStack itemStack = cratesPlus.getVersion_util().getSpawnEgg(EntityType.CREEPER, 1);
-                    sender.sendMessage(ChatColor.AQUA + "Testing creeper egg...");
-                    SpawnEggNBT spawnEggNBT = SpawnEggNBT.fromItemStack(itemStack);
-                    if (spawnEggNBT.getSpawnedType().equals(EntityType.CREEPER)) {
-                        sender.sendMessage(ChatColor.GREEN + "Creeper egg successful");
-                        if (player != null)
-                            player.getInventory().addItem(itemStack);
-                    } else {
-                        sender.sendMessage(ChatColor.RED + "Creeper egg failed, please post console on GitHub");
-                    }
-
-                    sender.sendMessage(ChatColor.AQUA + "Creating spider egg...");
-                    itemStack = cratesPlus.getVersion_util().getSpawnEgg(EntityType.SPIDER, 2);
-                    sender.sendMessage(ChatColor.AQUA + "Testing spider egg...");
-                    spawnEggNBT = SpawnEggNBT.fromItemStack(itemStack);
-                    if (spawnEggNBT.getSpawnedType().equals(EntityType.SPIDER)) {
-                        sender.sendMessage(ChatColor.GREEN + "Spider egg successful");
-                        if (player != null)
-                            player.getInventory().addItem(itemStack);
-                    } else {
-                        sender.sendMessage(ChatColor.RED + "Spider egg failed, please post console on GitHub");
-                    }
-
-                    sender.sendMessage(ChatColor.AQUA + "Creating silverfish egg...");
-                    itemStack = cratesPlus.getVersion_util().getSpawnEgg(EntityType.SILVERFISH, 3);
-                    sender.sendMessage(ChatColor.AQUA + "Testing silverfish egg...");
-                    spawnEggNBT = SpawnEggNBT.fromItemStack(itemStack);
-                    if (spawnEggNBT.getSpawnedType().equals(EntityType.SILVERFISH)) {
-                        sender.sendMessage(ChatColor.GREEN + "Silverfish egg successful");
-                        if (player != null)
-                            player.getInventory().addItem(itemStack);
-                    } else {
-                        sender.sendMessage(ChatColor.RED + "Silverfish egg failed, please post console on GitHub");
-                    }
                     break;
                 case "claim":
                     if (sender instanceof Player) {
@@ -212,7 +170,7 @@ public class CrateCommand implements CommandExecutor {
                             location.setY(0);
                             ClientboundOpenSignEditorPacket packet = new ClientboundOpenSignEditorPacket(NMSUtil.getBlockPosition(location));
                             SignInputHandler.injectNetty(cratesPlus, player);
-                            player.sendBlockChange(location, LegacyMaterial.SIGN_POST.getMaterial(), (byte) 0);
+                            player.sendBlockChange(location, Material.OAK_SIGN, (byte) 0);
                             NMSUtil.sendPacket(player, packet);
                         } catch (Exception e) {
                             cratesPlus.getLogger().log(Level.SEVERE, "Failed to display sign!", e);

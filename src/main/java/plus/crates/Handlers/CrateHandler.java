@@ -13,7 +13,6 @@ import plus.crates.Crate;
 import plus.crates.CratesPlus;
 import plus.crates.Key;
 import plus.crates.Opener.Opener;
-import plus.crates.Utils.LegacyMaterial;
 
 import java.io.IOException;
 import java.util.*;
@@ -282,7 +281,7 @@ public class CrateHandler {
                 title = args[2];
             }
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
-            ItemStack itemStack = new ItemStack(LegacyMaterial.EMPTY_MAP.getMaterial());
+            ItemStack itemStack = new ItemStack(Material.MAP);
             ItemMeta itemMeta = itemStack.getItemMeta();
             itemMeta.setDisplayName(ChatColor.RESET + title);
             itemStack.setItemMeta(itemMeta);
@@ -344,7 +343,7 @@ public class CrateHandler {
                     }
                 }
 
-                ItemStack itemStack = new ItemStack(LegacyMaterial.EMPTY_MAP.getMaterial());
+                ItemStack itemStack = new ItemStack(Material.MAP);
                 ItemMeta itemMeta = itemStack.getItemMeta();
                 List<String> lore = new ArrayList<String>();
                 lore.add(ChatColor.DARK_GRAY + "Crate Command");

@@ -3,6 +3,7 @@ package plus.crates.Utils;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.micrlink.individualholograms.IndividualHolograms;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -15,25 +16,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Version_Util {
+public class HologramUtil {
     private HashMap<String, com.gmail.filoghost.holographicdisplays.api.Hologram> holograms = new HashMap<>();
     protected CratesPlus cratesPlus;
     private boolean shown_hologram_deprecated_warning = false;
 
-    public Version_Util(CratesPlus cratesPlus) {
+    public HologramUtil(CratesPlus cratesPlus) {
         this.cratesPlus = cratesPlus;
-    }
-
-    public ItemStack getItemInPlayersHand(Player player) {
-        return player.getItemInHand();
-    }
-
-    public ItemStack getItemInPlayersOffHand(Player player) {
-        return null;
-    }
-
-    public void removeItemInOffHand(Player player) {
-
     }
 
     public void createHologram(Location location, ArrayList<String> lines, Crate crate) {
@@ -66,24 +55,6 @@ public class Version_Util {
                 holograms.remove("" + location.getWorld().getName() + "|" + location.getBlockX() + "|" + location.getBlockY() + "|" + location.getBlockZ());
             }
         }
-    }
-
-    public ItemStack getSpawnEgg(EntityType entityType, Integer amount) {
-        ItemStack egg = new ItemStack(LegacyMaterial.MONSTER_EGG.getMaterial(), amount);
-        if (entityType != null) {
-            SpawnEgg spawnEgg = new SpawnEgg(entityType);
-            egg.setData(spawnEgg);
-        }
-        return egg;
-    }
-
-    public EntityType getEntityTypeFromItemStack(ItemStack itemStack) {
-        SpawnEgg spawnEgg = (SpawnEgg) itemStack.getData();
-        return spawnEgg.getSpawnedType();
-    }
-
-    public ItemMeta handleItemFlags(ItemMeta itemMeta, List<String> flags) {
-        return itemMeta;
     }
 
 }

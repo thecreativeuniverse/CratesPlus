@@ -19,7 +19,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import plus.crates.Crate;
 import plus.crates.CratesPlus;
 import plus.crates.Events.PlayerInputEvent;
-import plus.crates.Utils.LegacyMaterial;
 import plus.crates.Utils.NMSUtil;
 import plus.crates.Utils.SignInputHandler;
 
@@ -163,7 +162,7 @@ public class SettingsListener implements Listener {
 
         } else if (title.contains("Edit Crate Color")) {
             event.setCancelled(true);
-            if (event.getCurrentItem() != null && event.getCurrentItem().getType() == LegacyMaterial.WOOL.getMaterial()) {
+            if (event.getCurrentItem() != null && event.getCurrentItem().getType().name().contains("WOOL")) {
                 player.closeInventory();
                 ChatColor color = ChatColor.valueOf(ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName().toUpperCase().replaceAll(" ", "_")));
                 if (color != null) {
@@ -202,116 +201,111 @@ public class SettingsListener implements Listener {
                 location.setY(0);
                 ClientboundOpenSignEditorPacket packet = new ClientboundOpenSignEditorPacket(NMSUtil.getBlockPosition(location));
                 SignInputHandler.injectNetty(cratesPlus, player);
-                player.sendBlockChange(location, LegacyMaterial.SIGN_POST.getMaterial(), (byte) 0);
+                player.sendBlockChange(location, Material.OAK_SIGN, (byte) 0);
                 NMSUtil.sendPacket(player, packet);
                 event.setCancelled(true);
             } else if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Edit Crate Color")) {
                 event.setCancelled(true);
                 Inventory inventory = Bukkit.createInventory(null, 18, "Edit Crate Color");
 
-                ItemStack aqua = new ItemStack(LegacyMaterial.WOOL.getMaterial(), 1, (short) 3);
+                ItemStack aqua = new ItemStack(Material.LIGHT_BLUE_WOOL, 1);
                 ItemMeta aquaMeta = aqua.getItemMeta();
                 aquaMeta.setDisplayName(ChatColor.AQUA + "Aqua");
                 aqua.setItemMeta(aquaMeta);
                 inventory.addItem(aqua);
 
-                ItemStack black = new ItemStack(LegacyMaterial.WOOL.getMaterial(), 1, (short) 15);
+                ItemStack black = new ItemStack(Material.BLACK_WOOL, 1);
                 ItemMeta blackMeta = black.getItemMeta();
                 blackMeta.setDisplayName(ChatColor.BLACK + "Black");
                 black.setItemMeta(blackMeta);
                 inventory.addItem(black);
 
-                ItemStack blue = new ItemStack(LegacyMaterial.WOOL.getMaterial(), 1, (short) 9);
+                ItemStack blue = new ItemStack(Material.BLUE_WOOL, 1);
                 ItemMeta blueMeta = blue.getItemMeta();
                 blueMeta.setDisplayName(ChatColor.BLUE + "Blue");
                 blue.setItemMeta(blueMeta);
                 inventory.addItem(blue);
 
-                ItemStack darkAqua = new ItemStack(LegacyMaterial.WOOL.getMaterial(), 1, (short) 3);
+                ItemStack darkAqua = new ItemStack(Material.CYAN_WOOL, 1);
                 ItemMeta darkAquaMeta = darkAqua.getItemMeta();
                 darkAquaMeta.setDisplayName(ChatColor.DARK_AQUA + "Dark Aqua");
                 darkAqua.setItemMeta(darkAquaMeta);
                 inventory.addItem(darkAqua);
 
-                ItemStack darkBlue = new ItemStack(LegacyMaterial.WOOL.getMaterial(), 1, (short) 11);
-                ItemMeta darkBlueMeta = darkBlue.getItemMeta();
-                darkBlueMeta.setDisplayName(ChatColor.DARK_BLUE + "Dark Blue");
-                darkBlue.setItemMeta(darkBlueMeta);
-                inventory.addItem(darkBlue);
+//                ItemStack darkBlue = new ItemStack(LegacyMaterial.WOOL.getMaterial(), 1, (short) 11);
+//                ItemMeta darkBlueMeta = darkBlue.getItemMeta();
+//                darkBlueMeta.setDisplayName(ChatColor.DARK_BLUE + "Dark Blue");
+//                darkBlue.setItemMeta(darkBlueMeta);
+//                inventory.addItem(darkBlue);
 
-                ItemStack darkGray = new ItemStack(LegacyMaterial.WOOL.getMaterial(), 1, (short) 7);
+                ItemStack darkGray = new ItemStack(Material.GRAY_WOOL, 1);
                 ItemMeta darkGrayMeta = darkGray.getItemMeta();
                 darkGrayMeta.setDisplayName(ChatColor.DARK_GRAY + "Dark Gray");
                 darkGray.setItemMeta(darkGrayMeta);
                 inventory.addItem(darkGray);
 
-                ItemStack darkGreen = new ItemStack(LegacyMaterial.WOOL.getMaterial(), 1, (short) 13);
+                ItemStack darkGreen = new ItemStack(Material.GREEN_WOOL, 1);
                 ItemMeta darkGreenMeta = darkGreen.getItemMeta();
                 darkGreenMeta.setDisplayName(ChatColor.DARK_GREEN + "Dark Green");
                 darkGreen.setItemMeta(darkGreenMeta);
                 inventory.addItem(darkGreen);
 
-                ItemStack darkPurple = new ItemStack(LegacyMaterial.WOOL.getMaterial(), 1, (short) 10);
+                ItemStack darkPurple = new ItemStack(Material.PURPLE_WOOL, 1);
                 ItemMeta darkPurpleMeta = darkPurple.getItemMeta();
                 darkPurpleMeta.setDisplayName(ChatColor.DARK_PURPLE + "Dark Purple");
                 darkPurple.setItemMeta(darkPurpleMeta);
                 inventory.addItem(darkPurple);
 
-                ItemStack darkRed = new ItemStack(LegacyMaterial.WOOL.getMaterial(), 1, (short) 14);
+                ItemStack darkRed = new ItemStack(Material.RED_WOOL, 1);
                 ItemMeta darkRedMeta = darkRed.getItemMeta();
                 darkRedMeta.setDisplayName(ChatColor.DARK_RED + "Dark Red");
                 darkRed.setItemMeta(darkRedMeta);
                 inventory.addItem(darkRed);
 
-                ItemStack glass = new ItemStack(LegacyMaterial.STAINED_GLASS_PANE.getMaterial(), 1, (short) 8);
-                ItemMeta glassMeta = glass.getItemMeta();
-                glassMeta.setDisplayName(ChatColor.GOLD + "");
-                glass.setItemMeta(glassMeta);
-                inventory.addItem(glass);
-
-                ItemStack gold = new ItemStack(LegacyMaterial.WOOL.getMaterial(), 1, (short) 1);
+                ItemStack gold = new ItemStack(Material.ORANGE_WOOL, 1);
                 ItemMeta goldMeta = gold.getItemMeta();
                 goldMeta.setDisplayName(ChatColor.GOLD + "Gold");
                 gold.setItemMeta(goldMeta);
                 inventory.addItem(gold);
 
-                ItemStack gray = new ItemStack(LegacyMaterial.WOOL.getMaterial(), 1, (short) 8);
+                ItemStack gray = new ItemStack(Material.LIGHT_GRAY_WOOL, 1);
                 ItemMeta grayMeta = gray.getItemMeta();
                 grayMeta.setDisplayName(ChatColor.GRAY + "Gray");
                 gray.setItemMeta(grayMeta);
                 inventory.addItem(gray);
 
-                ItemStack green = new ItemStack(LegacyMaterial.WOOL.getMaterial(), 1, (short) 5);
+                ItemStack green = new ItemStack(Material.LIME_WOOL, 1);
                 ItemMeta greenMeta = gray.getItemMeta();
                 greenMeta.setDisplayName(ChatColor.GREEN + "Green");
                 green.setItemMeta(greenMeta);
                 inventory.addItem(green);
 
-                ItemStack lightPurple = new ItemStack(LegacyMaterial.WOOL.getMaterial(), 1, (short) 2);
+                ItemStack lightPurple = new ItemStack(Material.MAGENTA_WOOL, 1);
                 ItemMeta lightPurpleMeta = lightPurple.getItemMeta();
                 lightPurpleMeta.setDisplayName(ChatColor.LIGHT_PURPLE + "Light Purple");
                 lightPurple.setItemMeta(lightPurpleMeta);
                 inventory.addItem(lightPurple);
 
-                ItemStack red = new ItemStack(LegacyMaterial.WOOL.getMaterial(), 1, (short) 14);
+                ItemStack red = new ItemStack(Material.RED_WOOL, 1);
                 ItemMeta redMeta = red.getItemMeta();
                 redMeta.setDisplayName(ChatColor.RED + "Red");
                 red.setItemMeta(redMeta);
                 inventory.addItem(red);
 
-                ItemStack white = new ItemStack(LegacyMaterial.WOOL.getMaterial(), 1, (short) 0);
+                ItemStack white = new ItemStack(Material.WHITE_WOOL, 1);
                 ItemMeta whiteMeta = white.getItemMeta();
                 whiteMeta.setDisplayName(ChatColor.WHITE + "White");
                 white.setItemMeta(whiteMeta);
                 inventory.addItem(white);
 
-                ItemStack yellow = new ItemStack(LegacyMaterial.WOOL.getMaterial(), 1, (short) 4);
+                ItemStack yellow = new ItemStack(Material.YELLOW_WOOL, 1);
                 ItemMeta yellowMeta = yellow.getItemMeta();
                 yellowMeta.setDisplayName(ChatColor.YELLOW + "Yellow");
                 yellow.setItemMeta(yellowMeta);
                 inventory.addItem(yellow);
 
-                glass = new ItemStack(LegacyMaterial.STAINED_GLASS_PANE.getMaterial(), 1, (short) 8);
+                ItemStack glass = new ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE, 1);
+                ItemMeta glassMeta = glass.getItemMeta();
                 glassMeta = glass.getItemMeta();
                 glassMeta.setDisplayName(ChatColor.GOLD + "");
                 glass.setItemMeta(glassMeta);
