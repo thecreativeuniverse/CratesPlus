@@ -211,6 +211,7 @@ public class CratesPlus extends JavaPlugin implements Listener {
         settingsHandler = new SettingsHandler(this);
 
         inventoryHandler = new InventoryHandler(this);
+        Bukkit.getPluginManager().registerEvents(inventoryHandler, this);
 
         loadMetaData();
 

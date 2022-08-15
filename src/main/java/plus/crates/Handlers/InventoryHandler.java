@@ -24,7 +24,7 @@ public class InventoryHandler implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onClose(InventoryCloseEvent event) {
-        opened.remove(event.getPlayer().getUniqueId());
+        onClose(event.getPlayer().getUniqueId());
     }
 
     public void open(Player player, Inventory inventory) {
@@ -34,7 +34,7 @@ public class InventoryHandler implements Listener {
 
     public void openChild(Player player, Inventory inventory) {
         player.closeInventory();
-        Bukkit.getScheduler().runTaskLater(cratesPlus, () -> open(player, inventory), 2L);
+        Bukkit.getScheduler().runTaskLater(cratesPlus, () -> open(player, inventory), 5L);
     }
 
     public boolean isOpened(UUID uuid) {
